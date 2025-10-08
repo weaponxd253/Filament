@@ -1,0 +1,1082 @@
+{
+  "version": 1,
+  "categories": {
+    "PLA Silk": [
+      {
+        "color": "Blue",
+        "hex": "#0000FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Copper (Generic)",
+        "hex": "#B87333",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gold (CC3D)",
+        "hex": "#FFD700",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Green",
+        "hex": "#008000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pink",
+        "hex": "#FFC0CB",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Purple",
+        "hex": "#800080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Red (Generic)",
+        "hex": "#FF0000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Silver",
+        "hex": "#C0C0C0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "White (Generic)",
+        "hex": "#FFFFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Silk+": [
+      {
+        "color": "Baby Blue",
+        "hex": "#A7C7E7",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue",
+        "hex": "#0000FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Candy Green",
+        "hex": "#00FF00",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Candy Red",
+        "hex": "#FF6347",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Champagne",
+        "hex": "#F1E1C6",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gold",
+        "hex": "#FFD700",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Mint",
+        "hex": "#98FF98",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pink",
+        "hex": "#FFC0CB",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Purple",
+        "hex": "#800080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Rose Gold",
+        "hex": "#B76E79",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Silver",
+        "hex": "#C0C0C0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Titan Gray",
+        "hex": "#3B3C36",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "White",
+        "hex": "#FFFFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Silk Dual": [
+      {
+        "color": "Velvet Eclipse (Black)",
+        "hex": "#000000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Midnight Blaze (Blue-Red)",
+        "hex": "#800000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Neon City (Blue-Magenta)",
+        "hex": "#8A2BE2",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gilded Rose (Pink-Gold)",
+        "hex": "#FFD700",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue Hawaii (Blue-Green)",
+        "hex": "#40E0D0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Basic": [
+      {
+        "color": "Black",
+        "hex": "#000000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue",
+        "hex": "#0000FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue Gray",
+        "hex": "#607d8b",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Bright Green",
+        "hex": "#00FF00",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Bronze",
+        "hex": "#CD7F32",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Brown",
+        "hex": "#8B4513",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cobalt blue",
+        "hex": "#0047AB",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cocoa Brown",
+        "hex": "#6B4F3A",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cyan",
+        "hex": "#00FFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Dark Gray",
+        "hex": "#A9A9A9",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gold",
+        "hex": "#FFD700",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gray",
+        "hex": "#808080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Hot Pink",
+        "hex": "#FF69B4",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Indigo Purple",
+        "hex": "#4B0082",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Jade White",
+        "hex": "#00A36C",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Light Gray",
+        "hex": "#D3D3D3",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Magenta",
+        "hex": "#FF00FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Maroon Red",
+        "hex": "#800000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Mistletoe Green",
+        "hex": "#4B9F6F",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Neon Green",
+        "hex": "#39FF14",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Orange",
+        "hex": "#FFA500",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pink",
+        "hex": "#FFC0CB",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pumpkin Orange",
+        "hex": "#FF7518",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Purple",
+        "hex": "#800080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Red",
+        "hex": "#FF0000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Silver",
+        "hex": "#C0C0C0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PETG": [
+      {
+        "color": "Beige",
+        "hex": "#F5F5DC",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Black",
+        "hex": "#000000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue",
+        "hex": "#0000FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue Gray",
+        "hex": "#607d8b",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Bright Green",
+        "hex": "#00FF00",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Bronze",
+        "hex": "#CD7F32",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Brown",
+        "hex": "#8B4513",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cobalt blue",
+        "hex": "#0047AB",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cocoa Brown",
+        "hex": "#6B4F3A",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cyan",
+        "hex": "#00FFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Dark Gray",
+        "hex": "#A9A9A9",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gold",
+        "hex": "#FFD700",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Gray",
+        "hex": "#808080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Hot Pink",
+        "hex": "#FF69B4",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Indigo Purple",
+        "hex": "#4B0082",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "White",
+        "hex": "#FFFFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Light Gray",
+        "hex": "#D3D3D3",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Magenta",
+        "hex": "#FF00FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Maroon Red",
+        "hex": "#800000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Mistletoe Green",
+        "hex": "#4B9F6F",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Neon Green",
+        "hex": "#39FF14",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Orange",
+        "hex": "#FFA500",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pink",
+        "hex": "#FFC0CB",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pumpkin Orange",
+        "hex": "#FF7518",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Purple",
+        "hex": "#800080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Red",
+        "hex": "#FF0000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Silver",
+        "hex": "#C0C0C0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Sunflower Yellow",
+        "hex": "#FFDA03",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Turquoise",
+        "hex": "#40E0D0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Yellow",
+        "hex": "#FFFF00",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Matte": [
+      {
+        "color": "Apple Green",
+        "hex": "#8DB600",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Ash Gray",
+        "hex": "#B2BEB5",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Caramel",
+        "hex": "#A97142",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Charcoal",
+        "hex": "#36454F",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Dark Blue",
+        "hex": "#00008B",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Dark Brown",
+        "hex": "#654321",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Dark Green",
+        "hex": "#006400",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Dark Red",
+        "hex": "#8B0000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Desert Tan",
+        "hex": "#CBB682",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Grass Green",
+        "hex": "#32CD32",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Ice Blue",
+        "hex": "#99FFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Ivory White",
+        "hex": "#FFFFF0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Latte Brown",
+        "hex": "#C5A582",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Lemon Yellow",
+        "hex": "#FFF44F",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Lilac Purple",
+        "hex": "#C8A2C8",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Mandarin Orange",
+        "hex": "#F37A2E",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Marine Blue",
+        "hex": "#01386A",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Plum",
+        "hex": "#8E4585",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Terracotta",
+        "hex": "#E2725B",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Scarlet Red",
+        "hex": "#FF2400",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Wood": [
+      {
+        "color": "Black Walnut",
+        "hex": "#4E2A1E",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Classic Birch",
+        "hex": "#D9C9A3",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Clay Brown",
+        "hex": "#B66A50",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Ochre Yellow",
+        "hex": "#CC7722",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Rosewood",
+        "hex": "#65000B",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "White Oak",
+        "hex": "#D7CAB0",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Basic Gradient": [
+      {
+        "color": "Arctic Whisper",
+        "hex": "#E8F6FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Solar Breeze",
+        "hex": "#FFF4B1",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Ocean to Meadow",
+        "hex": "#3CB371",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cotton Candy Cloud",
+        "hex": "#FFB7C5",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blueberry Bubblegum",
+        "hex": "#8AAAE5",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Mint Lime",
+        "hex": "#BFFF00",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Pink Citrus",
+        "hex": "#FF6F61",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ],
+    "PLA Translucent": [
+      {
+        "color": "Teal",
+        "hex": "#008080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Light Jade",
+        "hex": "#CDEDEA",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Blue",
+        "hex": "#0000FF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Mellow Yellow",
+        "hex": "#F8DE7E",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Purple",
+        "hex": "#800080",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Cherry Pink",
+        "hex": "#DE3163",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Orange",
+        "hex": "#FFA500",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Ice Blue",
+        "hex": "#99FFFF",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Red",
+        "hex": "#FF0000",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      },
+      {
+        "color": "Lavender",
+        "hex": "#E6E6FA",
+        "rolls": 1,
+        "rollSizeKey": "1kg",
+        "amount": 1000,
+        "usage": []
+      }
+    ], 
+    "PETG HF": [
+  { "color": "Black",        "hex": "#000000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Blue",         "hex": "#0000FF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Cream",        "hex": "#FFFDD0", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Dark Gray",    "hex": "#A9A9A9", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Forest Green", "hex": "#228B22", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Gray",         "hex": "#808080", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Green",        "hex": "#008000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Lake Blue",    "hex": "#1E90FF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Lime Green",   "hex": "#32CD32", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Orange",       "hex": "#FFA500", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Peanut Brown", "hex": "#A0522D", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Red",          "hex": "#FF0000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "White",        "hex": "#FFFFFF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Yellow",       "hex": "#FFFF00", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] }
+],
+
+"PETG Basic": [
+  { "color": "Black",             "hex": "#000000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Blue",              "hex": "#0000FF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Gold",              "hex": "#FFD700", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Grey",              "hex": "#808080", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Lake Blue",         "hex": "#1E90FF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Lime Green",        "hex": "#32CD32", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Orange",            "hex": "#FFA500", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Red",               "hex": "#FF0000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Silver (Generic)",  "hex": "#C0C0C0", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "White",             "hex": "#FFFFFF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Yellow",            "hex": "#FFFF00", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] }
+],
+
+"PETG-CF": [
+  { "color": "Brick Red",     "hex": "#CB4154", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Violet Purple", "hex": "#8F00FF", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Indigo Blue",   "hex": "#4B0082", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Malachite Green","hex": "#0BDA51","rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Black",         "hex": "#000000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Titan Gray",    "hex": "#8D8E8E", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] }
+],
+
+"PETG Translucent": [
+  { "color": "Translucent Gray",       "hex": "#BEBEBE", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Light Blue", "hex": "#ADD8E6", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Olive",      "hex": "#808000", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Brown",      "hex": "#A0522D", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Teal",       "hex": "#008080", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Orange",     "hex": "#FFA500", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Purple",     "hex": "#800080", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] },
+  { "color": "Translucent Pink",       "hex": "#FFC0CB", "rolls": 1, "rollSizeKey": "1kg", "amount": 1000, "usage": [] }
+]
+
+  }
+}
