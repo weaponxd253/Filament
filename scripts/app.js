@@ -36,14 +36,31 @@ const getOwned = () => {
 };
 const setOwned = (arr) => localStorage.setItem(KEY_OWNED, JSON.stringify(arr));
 
+function normalizeOwnedItem(item) {
+  const amount = Number(item.amount || 0);
+  return {
+    ...item,
+    amount,
+    spoolSizeKey: item.spoolSizeKey || "1000g",
+    startingWeight: Math.max(Number(item.startingWeight || 0), amount, 1000),
+    usage: Array.isArray(item.usage) ? item.usage : [],
+  };
+}
+
 function addOwned(item) {
   const list = getOwned();
-  const idx = list.findIndex(x => x.id === item.id);
+  const nextItem = normalizeOwnedItem(item);
+  const idx = list.findIndex(x => x.id === nextItem.id);
   if (idx >= 0) {
-    list[idx].rolls = Number(list[idx].rolls || 0) + Number(item.rolls || 1);
-    list[idx].amount = Number(list[idx].amount || 0) + Number(item.amount || 0);
+    const nextAmount = Number(list[idx].amount || 0) + Number(nextItem.amount || 0);
+    list[idx] = normalizeOwnedItem({
+      ...list[idx],
+      rolls: Number(list[idx].rolls || 0) + Number(nextItem.rolls || 1),
+      amount: nextAmount,
+      startingWeight: Math.max(Number(list[idx].startingWeight || 0), nextAmount),
+    });
   } else {
-    list.push(item);
+    list.push(nextItem);
   }
   setOwned(list);
   return list;
@@ -126,6 +143,9 @@ function flattenCatalog(categories = {}) {
       material: category,
       rolls: Number(it.rolls ?? 1),
       amount: Number(it.amount ?? 0),
+      spoolSizeKey: "1000g",
+      startingWeight: Math.max(Number(it.amount ?? 0), 1000),
+      usage: [],
     }))
   );
 }
@@ -354,6 +374,9 @@ document.addEventListener("click", (e) => {
       material: addBtn.dataset.ownedCategory || "",
       rolls: Number(addBtn.dataset.ownedRolls || 1),
       amount: Number(addBtn.dataset.ownedAmount || 0),
+      spoolSizeKey: "1000g",
+      startingWeight: Math.max(Number(addBtn.dataset.ownedAmount || 0), 1000),
+      usage: [],
     };
 
     addOwned(item);

@@ -36,7 +36,6 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
         <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
@@ -59,7 +58,6 @@
     </nav>
 
     <main class="container my-4">
-        <!-- Inventory tabs -->
         <ul class="nav nav-tabs" id="profileTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="filament-tab" data-bs-toggle="tab" data-bs-target="#filaments-pane"
@@ -76,23 +74,27 @@
         </ul>
 
         <div class="tab-content p-3 border border-top-0 rounded-bottom" id="profileTabsContent">
-            <!-- Activity -->
             <section class="tab-pane fade" id="activity-pane" role="tabpanel" aria-labelledby="activity-tab"
                 tabindex="0">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
                     <h2 class="h6 mb-0">Activity</h2>
-                    <button id="clearActivity" class="btn btn-sm btn-outline-danger" type="button"
-                        title="Clear all activity">
-                        Clear Activity
-                    </button>
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <select id="activityFilter" class="form-select form-select-sm" aria-label="Filter activity">
+                            <option value="all">All activity</option>
+                            <option value="usage">Usage only</option>
+                            <option value="inventory">Inventory changes</option>
+                            <option value="favorites">Favorites</option>
+                        </select>
+                        <button id="clearActivity" class="btn btn-sm btn-outline-danger" type="button"
+                            title="Clear all activity">
+                            Clear Activity
+                        </button>
+                    </div>
                 </div>
 
-                <ul id="activityList" class="list-group list-group-flush">
-                    <!-- items injected via JS -->
-                </ul>
+                <ul id="activityList" class="list-group list-group-flush"></ul>
             </section>
 
-            <!-- Favorites -->
             <section class="tab-pane fade" id="favorites-pane" role="tabpanel" aria-labelledby="favorites-tab"
                 tabindex="0">
                 <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
@@ -110,12 +112,9 @@
                     </div>
                 </div>
 
-                <div id="favoritesGrid" class="row g-3">
-                    <!-- favorite cards injected via JS -->
-                </div>
+                <div id="favoritesGrid" class="row g-3"></div>
             </section>
 
-            <!-- My Filaments -->
             <section class="tab-pane fade show active" id="filaments-pane" role="tabpanel" aria-labelledby="filament-tab"
                 tabindex="0">
                 <div class="inventory-summary mb-3" aria-label="Inventory summary">
@@ -146,7 +145,7 @@
                         <h2 class="h6 mb-0">My Filaments</h2>
                         <div id="inventorySubtext" class="small text-secondary">Track remaining filament by roll.</div>
                     </div>
-                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="d-flex flex-wrap gap-2 align-items-center utility-actions">
                         <div class="input-group input-group-sm inventory-search">
                             <span class="input-group-text"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
                             <input id="ownedSearch" type="search" class="form-control"
@@ -160,12 +159,23 @@
                             <option value="brand">Brand A-Z</option>
                             <option value="material">Material A-Z</option>
                             <option value="status">Status</option>
+                            <option value="reorder">Reorder Signal</option>
                             <option value="rolls">Rolls high-low</option>
                             <option value="weight">Weight high-low</option>
                         </select>
                         <button id="undoUse" class="btn btn-sm btn-outline-secondary" type="button" disabled>
                             <i class="fa-solid fa-rotate-left me-1" aria-hidden="true"></i>Undo Use
                         </button>
+                        <button id="exportJson" class="btn btn-sm btn-outline-secondary" type="button">
+                            <i class="fa-solid fa-file-export me-1" aria-hidden="true"></i>JSON
+                        </button>
+                        <button id="exportCsv" class="btn btn-sm btn-outline-secondary" type="button">
+                            <i class="fa-solid fa-table me-1" aria-hidden="true"></i>CSV
+                        </button>
+                        <button id="importJson" class="btn btn-sm btn-outline-secondary" type="button">
+                            <i class="fa-solid fa-file-import me-1" aria-hidden="true"></i>Import
+                        </button>
+                        <input id="importFile" class="visually-hidden" type="file" accept="application/json,.json" />
                         <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#filamentModal">
                             <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Add Filament
                         </button>
@@ -185,14 +195,11 @@
                                 <th class="text-end" style="width:150px;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="ownedTableBody">
-                            <!-- rows injected via JS -->
-                        </tbody>
+                        <tbody id="ownedTableBody"></tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- Add/Edit Filament Modal -->
             <div class="modal fade" id="filamentModal" tabindex="-1" aria-labelledby="filamentModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -236,12 +243,27 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
+                                <label class="form-label" for="filamentSpoolPreset">Spool Preset</label>
+                                <select id="filamentSpoolPreset" class="form-select">
+                                    <option value="1000g">1000g</option>
+                                    <option value="750g">750g</option>
+                                    <option value="500g">500g</option>
+                                    <option value="250g">250g</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="filamentStartingWeight">Starting Weight (g)</label>
+                                <input id="filamentStartingWeight" type="number" min="0" step="50" class="form-control"
+                                    value="1000" />
+                            </div>
+                            <div class="col-md-6">
                                 <label class="form-label" for="filamentRolls">Rolls</label>
                                 <input id="filamentRolls" type="number" min="0" step="1" class="form-control"
                                     value="1" />
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="filamentWeight">Weight (g)</label>
+                                <label class="form-label" for="filamentWeight">Current Weight (g)</label>
                                 <input id="filamentWeight" type="number" min="0" step="50" class="form-control"
                                     value="1000" />
                             </div>
@@ -254,10 +276,46 @@
                     </form>
                 </div>
             </div>
+
+            <div class="modal fade" id="usageModal" tabindex="-1" aria-labelledby="usageModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form id="usageForm" class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="usageModalLabel">Log Usage</h1>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close" type="button"></button>
+                        </div>
+                        <div class="modal-body row g-3">
+                            <input type="hidden" id="usageFilamentId" />
+                            <div class="col-12">
+                                <div id="usageFilamentName" class="small text-secondary">Select a filament</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="usageGrams">Grams Used</label>
+                                <input id="usageGrams" type="number" min="1" step="1" class="form-control" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="usageDate">Date</label>
+                                <input id="usageDate" type="date" class="form-control" required />
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="usageProject">Project / Print</label>
+                                <input id="usageProject" class="form-control" placeholder="Gridfinity bins" />
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="usageNotes">Notes</label>
+                                <textarea id="usageNotes" class="form-control" rows="3" placeholder="Optional print notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+                            <button class="btn btn-primary" type="submit">Log Usage</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- Toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToast" class="toast" role="status" aria-live="polite" aria-atomic="true">
             <div class="toast-header">
@@ -268,7 +326,6 @@
             <div class="toast-body">Inventory updated.</div>
         </div>
     </div>
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
