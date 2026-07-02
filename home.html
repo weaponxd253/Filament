@@ -32,6 +32,7 @@
     </script>
 
     <!-- App CSS -->
+    <link rel="stylesheet" href="styles/common.css" />
     <link rel="stylesheet" href="styles/styles.css" />
 </head>
 
@@ -88,7 +89,9 @@
                     <span class="input-group-text"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
                     <input id="catalogSearch" class="form-control" type="search"
                         placeholder="Search color, material, or brand" aria-label="Search catalog" />
-                    <button id="catalogClear" class="btn btn-outline-secondary" type="button">Clear</button>
+                    <button id="catalogClear" class="btn btn-outline-secondary" type="button" aria-label="Clear catalog filters">
+                        <i class="fa-solid fa-xmark me-1" aria-hidden="true"></i>Clear
+                    </button>
                 </div>
 
                 <select id="materialFilter" class="form-select" aria-label="Filter by material">

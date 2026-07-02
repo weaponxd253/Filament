@@ -284,6 +284,15 @@ function renderCatalog() {
   updateQuickButtons();
 }
 
+function flashCatalogCard(id) {
+  window.requestAnimationFrame(() => {
+    const card = document.querySelector(`[data-owned-card="${CSS.escape(id)}"]`);
+    if (!card) return;
+    card.classList.add("is-updated");
+    setTimeout(() => card.classList.remove("is-updated"), 900);
+  });
+}
+
 function resetFilters({ clearSearch = false } = {}) {
   state.material = "all";
   state.quick = "all";
@@ -331,6 +340,7 @@ document.addEventListener("click", (e) => {
 
     showToast(nowFav ? `${item.color} added to favorites.` : `${item.color} removed from favorites.`);
     renderCatalog();
+    flashCatalogCard(item.id);
     return;
   }
 
@@ -357,6 +367,7 @@ document.addEventListener("click", (e) => {
 
     showToast(`${item.color} added to Inventory.`);
     renderCatalog();
+    flashCatalogCard(item.id);
   }
 });
 

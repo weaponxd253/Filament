@@ -13,16 +13,13 @@
     <script>
         (function () {
             try {
-                const KEY = "profile-theme";             // saved: "system" | "light" | "dark" | "solarized" | "hc"
+                const KEY = "profile-theme";
                 const saved = localStorage.getItem(KEY) || "system";
                 const mql = window.matchMedia("(prefers-color-scheme: dark)");
                 const resolved = saved === "system" ? (mql.matches ? "dark" : "light") : saved;
 
-                // IMPORTANT: set EXACTLY ONE attribute you style from.
-                // Use data-theme for your tokens. Avoid remapping here.
                 document.documentElement.setAttribute("data-theme", resolved);
 
-                // Optional: if you rely on Bootstrap’s data-bs-theme only for light/dark components:
                 if (resolved === "dark") document.documentElement.setAttribute("data-bs-theme", "dark");
                 else document.documentElement.setAttribute("data-bs-theme", "light");
             } catch { }
@@ -34,6 +31,7 @@
         bootTheme();
     </script>
 
+    <link rel="stylesheet" href="styles/common.css" />
     <link rel="stylesheet" href="styles/profile.css" />
 </head>
 
@@ -60,27 +58,6 @@
         </div>
     </nav>
 
-    <!-- Header -->
-    <!--  <header class="py-4 border-bottom">
-        <div class="container d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
-            <img id="avatar" src="https://via.placeholder.com/120" alt="avatar" class="rounded" width="120"
-                height="120" />
-            <div class="flex-grow-1">
-                <div class="d-flex align-items-center gap-2 mb-1">
-                    <h1 id="displayName" class="h4 mb-0">User Name</h1>
-                    <span id="badge" class="badge text-bg-secondary">Member</span>
-                </div>
-                <p id="bio" class="text-secondary mb-2">Tracking all the tasty spools.</p>
-                <div class="d-flex flex-wrap gap-3 small text-secondary">
-                    <span>Total Favorites: <strong id="statFavorites">0</strong></span>
-                    <span>Total Rolls: <strong id="statRolls">0</strong></span>
-                    <span>Total Weight: <strong id="statWeight">0 g</strong></span>
-                </div>
-            </div>
-        </div>
-    </header>
-    -->
-
     <main class="container my-4">
         <!-- Inventory tabs -->
         <ul class="nav nav-tabs" id="profileTabs" role="tablist">
@@ -96,11 +73,10 @@
                 <button class="nav-link" id="favorites-tab" data-bs-toggle="tab" data-bs-target="#favorites-pane"
                     type="button" role="tab" aria-controls="favorites-pane" aria-selected="false">Favorites</button>
             </li>
-
         </ul>
 
         <div class="tab-content p-3 border border-top-0 rounded-bottom" id="profileTabsContent">
-            <!-- Activity (default) -->
+            <!-- Activity -->
             <section class="tab-pane fade" id="activity-pane" role="tabpanel" aria-labelledby="activity-tab"
                 tabindex="0">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -123,13 +99,13 @@
                     <h2 class="h6 mb-0">Favorite Filaments</h2>
                     <div class="d-flex gap-2">
                         <div class="input-group input-group-sm" style="max-width: 260px;">
-                            <span class="input-group-text">Search</span>
+                            <span class="input-group-text"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
                             <input id="favSearch" type="search" class="form-control" placeholder="Color or category..." aria-label="Search favorite filaments" />
                         </div>
                         <select id="favSort" class="form-select form-select-sm" style="width:auto;">
-                            <option value="name">Name A–Z</option>
-                            <option value="rolls">Rolls ↓</option>
-                            <option value="weight">Weight ↓</option>
+                            <option value="name">Name A-Z</option>
+                            <option value="rolls">Rolls high-low</option>
+                            <option value="weight">Weight high-low</option>
                         </select>
                     </div>
                 </div>
@@ -142,45 +118,71 @@
             <!-- My Filaments -->
             <section class="tab-pane fade show active" id="filaments-pane" role="tabpanel" aria-labelledby="filament-tab"
                 tabindex="0">
-                <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <h2 class="h6 mb-0">My Filaments</h2>
-                        <div class="small text-secondary">
-                            <span>Total Rolls: <strong id="ownedRolls">0</strong></span>
-                            <span class="ms-3">Total Weight: <strong id="ownedWeight">0 g</strong></span>
-                        </div>
+                <div class="inventory-summary mb-3" aria-label="Inventory summary">
+                    <div class="summary-tile">
+                        <span class="summary-label">Colors</span>
+                        <strong id="ownedColors">0</strong>
                     </div>
-                    <div class="d-flex gap-2">
-                        <div class="input-group input-group-sm" style="max-width: 280px;">
-                            <span class="input-group-text">Search</span>
+                    <div class="summary-tile">
+                        <span class="summary-label">Rolls</span>
+                        <strong id="ownedRolls">0</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span class="summary-label">Weight</span>
+                        <strong id="ownedWeight">0 g</strong>
+                    </div>
+                    <div class="summary-tile summary-low">
+                        <span class="summary-label">Low</span>
+                        <strong id="ownedLow">0</strong>
+                    </div>
+                    <div class="summary-tile summary-out">
+                        <span class="summary-label">Out</span>
+                        <strong id="ownedOut">0</strong>
+                    </div>
+                </div>
+
+                <div class="inventory-toolbar d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 class="h6 mb-0">My Filaments</h2>
+                        <div id="inventorySubtext" class="small text-secondary">Track remaining filament by roll.</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <div class="input-group input-group-sm inventory-search">
+                            <span class="input-group-text"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
                             <input id="ownedSearch" type="search" class="form-control"
                                 placeholder="Color, brand, material..." aria-label="Search inventory" />
+                            <button id="ownedClear" class="btn btn-outline-secondary" type="button" aria-label="Clear inventory search">
+                                <i class="fa-solid fa-xmark me-1" aria-hidden="true"></i>Clear
+                            </button>
                         </div>
                         <select id="ownedSort" class="form-select form-select-sm" style="width:auto;">
-                            <option value="color">Color A–Z</option>
-                            <option value="brand">Brand A–Z</option>
-                            <option value="material">Material A–Z</option>
-                            <option value="rolls">Rolls ↓</option>
-                            <option value="weight">Weight ↓</option>
+                            <option value="color">Color A-Z</option>
+                            <option value="brand">Brand A-Z</option>
+                            <option value="material">Material A-Z</option>
+                            <option value="status">Status</option>
+                            <option value="rolls">Rolls high-low</option>
+                            <option value="weight">Weight high-low</option>
                         </select>
+                        <button id="undoUse" class="btn btn-sm btn-outline-secondary" type="button" disabled>
+                            <i class="fa-solid fa-rotate-left me-1" aria-hidden="true"></i>Undo Use
+                        </button>
                         <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#filamentModal">
-                            + Add Filament
+                            <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Add Filament
                         </button>
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table align-middle">
+                <div class="table-responsive inventory-table-wrap">
+                    <table class="table align-middle inventory-table">
                         <thead class="table-light">
                             <tr>
+                                <th style="width:44px;"><span class="visually-hidden">Details</span></th>
                                 <th style="width:56px;">Swatch</th>
                                 <th>Color</th>
-                                <th>Brand</th>
                                 <th>Material</th>
                                 <th class="text-nowrap">Rolls</th>
-                                <th class="text-nowrap">Weight (g)</th>
-                                <th class="text-end" style="width:160px;">Actions</th>
-
+                                <th class="text-nowrap">Remaining</th>
+                                <th class="text-end" style="width:150px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="ownedTableBody">
@@ -188,9 +190,7 @@
                         </tbody>
                     </table>
                 </div>
-
             </section>
-
 
             <!-- Add/Edit Filament Modal -->
             <div class="modal fade" id="filamentModal" tabindex="-1" aria-labelledby="filamentModalLabel"
@@ -249,17 +249,13 @@
                         <div class="modal-footer">
                             <button class="btn btn-outline-secondary" data-bs-dismiss="modal"
                                 type="button">Cancel</button>
-                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button id="filamentSubmit" class="btn btn-primary" type="submit">Add Filament</button>
                         </div>
                     </form>
                 </div>
             </div>
-
-
-
         </div>
     </main>
-
 
     <!-- Toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
