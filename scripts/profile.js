@@ -32,7 +32,7 @@ function statusFor(item) { const amount = Number(item.amount || 0); const left =
 function reorder(item) { if (hasNoRolls(item)) return { key: "no-rolls", label: "No Rolls" }; const st = statusFor(item); const fav = getFavorites().some(f => f.id === item.id); if (st.key === "out") return { key: "out", label: "Out" }; if (fav && st.key === "low") return { key: "favorite", label: "Favorite Low" }; if (st.key === "low") return { key: "low", label: "Reorder Soon" }; if ((item.usage || []).length >= 3 || totalUsed(item) >= Number(item.startingWeight || 0)) return { key: "frequent", label: "Frequently Used" }; return { key: "stocked", label: "Stocked" }; }function activityLabel(evt) { const p = evt.payload || {}; const color = p.color ? `<strong>${safe(p.color)}</strong>` : "item"; const meta = safe(p.category || p.material || p.brand || ""); const badge = meta ? ` <span class="text-secondary">(${meta})</span>` : ""; const change = Number.isFinite(Number(p.before)) && Number.isFinite(Number(p.after)) ? ` <span class="text-secondary">${Number(p.before).toLocaleString()}g to ${Number(p.after).toLocaleString()}g</span>` : ""; const project = p.project ? ` <span class="text-secondary">for ${safe(p.project)}</span>` : ""; switch (evt.type) { case "favorite:add": return `Favorited ${color}${badge}`; case "favorite:remove": return `Unfavorited ${color}${badge}`; case "owned:add": return `Added ${color}${badge} to Inventory`; case "owned:edit": return `Edited ${color}${badge}`; case "owned:delete": return `Deleted ${color}${badge}`; case "owned:restock": return `Restocked ${color}${badge} with <strong>${Number(p.grams || 0).toLocaleString()}g</strong>${change}`; case "owned:import": return `Imported <strong>${Number(p.count || 0)}</strong> inventory items`; case "owned:excel-parse": return `Parsed Excel stock file <strong>${safe(p.fileName || "workbook")}</strong> from ${safe(p.sheetName || "sheet")}`; case "owned:export": return `Exported inventory as ${safe(p.format || "file")}`; case "owned:use": return `Used <strong>${Math.abs(p.grams || p.deltaGrams || 0)}g</strong> from ${color}${badge}${project}${change}`; case "rolls:inc": return `Increased ${color}${badge} from ${Number(p.before || 0)} to ${Number(p.after || 0)} rolls`; case "rolls:dec": return `Decreased ${color}${badge} from ${Number(p.before || 0)} to ${Number(p.after || 0)} rolls`; case "undo": return `Undo: ${safe(p.note || "last change")}${change}`; default: return safe(evt.type); } }
 function activityMatch(evt, filter) { if (filter === "usage") return evt.type === "owned:use"; if (filter === "favorites") return evt.type.startsWith("favorite:"); if (filter === "inventory") return evt.type.startsWith("owned:") || evt.type.startsWith("rolls:") || evt.type === "undo"; return true; }
 function renderActivity() { const list = $("#activityList"); if (!list) return; const filter = $("#activityFilter")?.value || "all"; const items = getActivity().filter(evt => activityMatch(evt, filter)); list.innerHTML = items.slice(0, 40).map(evt => `<li class="list-group-item d-flex justify-content-between gap-3"><span>${activityLabel(evt)}</span><span class="text-secondary small text-nowrap">${ago(evt.ts)}</span></li>`).join("") || `<li class="list-group-item empty-state text-center"><div class="fw-semibold">No activity here yet.</div><div class="text-secondary small">Try another filter or log filament usage.</div></li>`; const clear = $("#clearActivity"); if (clear) clear.disabled = getActivity().length === 0; }
-function renderFavorites(filter = "", sort = "name") { const grid = $("#favoritesGrid"); if (!grid) return; const q = filter.trim().toLowerCase(); let view = getFavorites().filter(it => (it.color || "").toLowerCase().includes(q) || (it.category || it.material || "").toLowerCase().includes(q)); view.sort((a, b) => sort === "rolls" ? (b.rolls || 0) - (a.rolls || 0) : sort === "weight" ? (b.amount || 0) - (a.amount || 0) : String(a.color || "").localeCompare(String(b.color || ""))); grid.innerHTML = view.length ? view.map(it => { const color = safe(it.color || "Unnamed"); const category = safe(it.category || it.material || "Uncategorized"); const hex = safe(it.hex || "#eeeeee"); return `<div class="col-sm-6 col-lg-4"><div class="card inventory-card h-100"><div class="card-body d-flex gap-3 align-items-start"><div class="swatch" style="background:${hex}" aria-hidden="true"></div><div class="flex-grow-1 min-width-0"><div class="d-flex justify-content-between align-items-start gap-2"><div class="min-width-0"><div class="fw-semibold text-truncate">${color}</div><div class="text-secondary small">${category}</div></div><button class="btn btn-link p-0 fav-toggle icon-button" data-id="${safe(it.id)}" data-color="${color}" data-hex="${hex}" data-category="${category}" data-rolls="${Number(it.rolls || 0)}" data-amount="${Number(it.amount || 0)}" title="Remove ${color} from favorites" aria-label="Remove ${color} from favorites" aria-pressed="true" type="button"><i class="fa-solid fa-star text-warning" aria-hidden="true"></i></button></div><div class="text-secondary small mt-2">${Number(it.rolls || 0)} roll${Number(it.rolls || 0) === 1 ? "" : "s"} - ${Number(it.amount || 0).toLocaleString()} g</div></div></div></div></div>`; }).join("") : `<div class="col-12"><div class="empty-state text-center"><div class="fw-semibold">${q ? "No favorites match your search." : "No favorites yet."}</div><div class="text-secondary small mb-3">Use the star on catalog cards to keep colors close.</div><a class="btn btn-sm btn-outline-primary" href="home.html">Open Catalog</a></div></div>`; }
+function renderFavorites(filter = "", sort = "name") { const grid = $("#favoritesGrid"); if (!grid) return; const q = filter.trim().toLowerCase(); let view = getFavorites().filter(it => (it.color || "").toLowerCase().includes(q) || (it.category || it.material || "").toLowerCase().includes(q)); view.sort((a, b) => sort === "rolls" ? (b.rolls || 0) - (a.rolls || 0) : sort === "weight" ? (b.amount || 0) - (a.amount || 0) : String(a.color || "").localeCompare(String(b.color || ""))); grid.innerHTML = view.length ? view.map(it => { const color = safe(it.color || "Unnamed"); const category = safe(it.category || it.material || "Uncategorized"); const hex = safe(it.hex || "#eeeeee"); return `<div class="col-sm-6 col-lg-4"><div class="card inventory-card h-100"><div class="card-body d-flex gap-3 align-items-start"><div class="swatch" style="background:${hex}" aria-hidden="true"></div><div class="flex-grow-1 min-width-0"><div class="d-flex justify-content-between align-items-start gap-2"><div class="min-width-0"><div class="fw-semibold text-truncate">${color}</div><div class="text-secondary small">${category}</div></div><button class="btn btn-link p-0 fav-toggle icon-button" data-id="${safe(it.id)}" data-color="${color}" data-hex="${hex}" data-category="${category}" data-rolls="${Number(it.rolls || 0)}" data-amount="${Number(it.amount || 0)}" title="Remove ${color} from favorites" aria-label="Remove ${color} from favorites" aria-pressed="true" type="button"><i class="fa-solid fa-star text-warning" aria-hidden="true"></i></button></div><div class="text-secondary small mt-2">${Number(it.rolls || 0)} roll${Number(it.rolls || 0) === 1 ? "" : "s"} - ${Number(it.amount || 0).toLocaleString()} g</div></div></div></div></div>`; }).join("") : `<div class="col-12"><div class="empty-state text-center"><div class="fw-semibold">${q ? "No favorites match your search." : "No favorites yet."}</div><div class="text-secondary small mb-3">Use the star on catalog cards to keep colors close.</div><a class="btn btn-sm btn-outline-primary" href="index.html">Open Catalog</a></div></div>`; }
 const expandedRows = new Set();
 function statusBadge(st) { return `<span class="status-badge status-${st.key}">${st.label}</span>`; }
 function progress(item) { const left = pct(item) ?? 0; return `<div class="progress-mini" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${left}"><span class="progress-mini-bar status-${statusFor(item).key}" style="width:${left}%"></span></div>`; }
@@ -40,7 +40,7 @@ function usageList(item) { const recent = [...(item.usage || [])].sort((a, b) =>
 function rowHTML(item) { const id = safe(item.id); const color = safe(item.color); const material = safe(item.material || "-"); const brand = safe(item.brand || "-"); const amount = Number(item.amount || 0); const st = statusFor(item); const left = pct(item); const signal = reorder(item); const last = lastUsed(item); const open = expandedRows.has(item.id); const noRolls = hasNoRolls(item); const rollWarning = noRolls && amount > 0 ? `<span class="roll-warning">0 rolls but ${amount.toLocaleString()}g recorded</span>` : ""; const usageDisabled = noRolls ? " disabled aria-disabled=\"true\"" : ""; return `<tr class="inventory-main-row row-status-${st.key}" data-id="${id}"><td><button class="btn btn-sm btn-outline-secondary row-expand" data-id="${id}" type="button" aria-expanded="${open ? "true" : "false"}" aria-label="${open ? "Hide" : "Show"} details for ${color}"><i class="fa-solid fa-chevron-${open ? "down" : "right"}" aria-hidden="true"></i></button></td><td><div class="swatch-sm" style="background:${safe(item.hex)}" aria-hidden="true"></div></td><td class="fw-medium">${color}</td><td>${material}</td><td class="text-nowrap"><div class="roll-stepper" role="group" aria-label="Roll count for ${color}"><button class="btn btn-outline-secondary btn-sm owned-dec" data-id="${id}" type="button">-</button><span class="roll-count" aria-live="polite">${Number(item.rolls || 0)}</span><button class="btn btn-outline-secondary btn-sm owned-inc" data-id="${id}" type="button">+</button></div></td><td class="text-nowrap"><div class="remaining-cell"><strong>${amount.toLocaleString()}g</strong>${left !== null ? `<span class="text-secondary small">${left}%</span>` : ""}${statusBadge(st)}</div></td><td class="text-end"><div class="btn-group btn-group-sm action-group"><button class="btn btn-outline-primary owned-edit" data-id="${id}" type="button"><i class="fa-solid fa-pen me-1" aria-hidden="true"></i>Edit</button><button class="btn btn-outline-danger owned-del" data-id="${id}" type="button"><i class="fa-solid fa-trash me-1" aria-hidden="true"></i>Delete</button></div></td></tr><tr class="inventory-detail-row ${open ? "is-open" : ""}" data-detail-for="${id}"><td colspan="7"><div class="detail-panel"><div class="detail-main"><div class="detail-meta"><span><strong>Brand:</strong> ${brand}</span><span><strong>Started:</strong> ${Number(item.startingWeight || 0).toLocaleString()}g</span><span><strong>Current:</strong> ${amount.toLocaleString()}g</span><span><strong>Used:</strong> ${totalUsed(item).toLocaleString()}g</span><span><strong>Last used:</strong> ${last ? safe(last.date) : "Never"}</span><span class="reorder-chip reorder-${signal.key}">${signal.label}</span>${rollWarning}</div>${progress(item)}<div class="detail-usage"><div class="small fw-semibold">Recent Usage</div>${usageList(item)}</div></div><div class="detail-actions"><div class="weight-actions" role="group" aria-label="Log usage for ${color}"><button class="btn btn-outline-secondary btn-sm use-chip" data-id="${id}" data-use="5"${usageDisabled} type="button">-5g</button><button class="btn btn-outline-secondary btn-sm use-chip" data-id="${id}" data-use="10"${usageDisabled} type="button">-10g</button><button class="btn btn-outline-secondary btn-sm use-chip" data-id="${id}" data-use="25"${usageDisabled} type="button">-25g</button><button class="btn btn-outline-secondary btn-sm use-custom" data-id="${id}"${usageDisabled} type="button">Custom</button></div></div></div></td></tr>`; }function sortOwned(items, sort) { return [...items].sort((a, b) => { if (sort === "rolls") return (b.rolls || 0) - (a.rolls || 0); if (sort === "weight") return (b.amount || 0) - (a.amount || 0); if (sort === "status") return statusFor(a).rank - statusFor(b).rank; if (sort === "reorder") return reorder(a).label.localeCompare(reorder(b).label); if (sort === "brand") return String(a.brand || "").localeCompare(String(b.brand || "")); if (sort === "material") return String(a.material || "").localeCompare(String(b.material || "")); return String(a.color || "").localeCompare(String(b.color || "")); }); }
 function renderTotals(items) { const stats = items.reduce((acc, item) => { const st = statusFor(item); acc.colors += 1; acc.rolls += Number(item.rolls || 0); acc.weight += Number(item.amount || 0); if (st.key === "low") acc.low += 1; if (st.key === "out") acc.out += 1; return acc; }, { colors: 0, rolls: 0, weight: 0, low: 0, out: 0 }); setText("#ownedColors", stats.colors); setText("#ownedRolls", stats.rolls); setText("#ownedWeight", `${stats.weight.toLocaleString()} g`); setText("#ownedLow", stats.low); setText("#ownedOut", stats.out); setText("#inventorySubtext", `${stats.colors} ${stats.colors === 1 ? "color" : "colors"} tracked across ${stats.rolls} ${stats.rolls === 1 ? "roll" : "rolls"}.`); }
 function updateUndo() { const btn = $("#undoUse"); if (btn) btn.disabled = undoStack.length === 0; }
-function renderOwned(filter = "", sort = "color") { const body = $("#ownedTableBody"); if (!body) return; const all = getOwned(); const q = filter.trim().toLowerCase(); const view = sortOwned(all.filter(item => [item.color, item.brand, item.material].some(v => String(v || "").toLowerCase().includes(q))), sort); body.innerHTML = view.length ? view.map(rowHTML).join("") : `<tr><td colspan="7"><div class="empty-state text-center"><div class="fw-semibold">${q ? "No filaments match your search." : "No filaments yet."}</div><div class="text-secondary small mb-3">${q ? "Try another color, brand, or material." : "Add your first spool from the catalog or the Add Filament button."}</div>${q ? `<button id="emptyClearSearch" class="btn btn-sm btn-outline-secondary" type="button">Clear Search</button>` : `<a class="btn btn-sm btn-outline-primary" href="home.html">Open Catalog</a>`}</div></td></tr>`; renderTotals(all); updateUndo(); }
+function renderOwned(filter = "", sort = "color") { const body = $("#ownedTableBody"); if (!body) return; const all = getOwned(); const q = filter.trim().toLowerCase(); const view = sortOwned(all.filter(item => [item.color, item.brand, item.material].some(v => String(v || "").toLowerCase().includes(q))), sort); body.innerHTML = view.length ? view.map(rowHTML).join("") : `<tr><td colspan="7"><div class="empty-state text-center"><div class="fw-semibold">${q ? "No filaments match your search." : "No filaments yet."}</div><div class="text-secondary small mb-3">${q ? "Try another color, brand, or material." : "Add your first spool from the catalog or the Add Filament button."}</div>${q ? `<button id="emptyClearSearch" class="btn btn-sm btn-outline-secondary" type="button">Clear Search</button>` : `<a class="btn btn-sm btn-outline-primary" href="index.html">Open Catalog</a>`}</div></td></tr>`; renderTotals(all); updateUndo(); }
 function rerenderOwned() { renderOwned($("#ownedSearch")?.value || "", $("#ownedSort")?.value || "color"); renderPlanning(); }
 function findOwned(id) { const list = getOwned(); return { list, item: list.find(item => item.id === id) }; }
 const undoStack = [];
@@ -98,7 +98,7 @@ function renderPlanning() {
     const amount = Number(item.amount || 0);
     const grams = Number(item.startingWeight || 1000);
     return `<div class="col-md-6 col-xl-4"><div class="planning-card"><div class="planning-card-main"><div class="swatch-sm" style="background:${safe(item.hex)}" aria-hidden="true"></div><div class="min-width-0"><div class="fw-semibold text-truncate">${safe(item.color)}</div><div class="text-secondary small">${safe(item.material || "-")}${item.brand ? ` - ${safe(item.brand)}` : ""}</div></div></div><div class="planning-meta"><span>${Number(item.rolls || 0)} rolls</span><span>${amount.toLocaleString()}g</span>${left !== null ? `<span>${left}%</span>` : ""}<span>${last ? safe(last.date) : "Never used"}</span></div><div class="planning-card-footer"><span class="reorder-chip reorder-${signal.key}">${signal.label}</span><span class="planning-action">${suggestedAction({ item, status, signal })}</span></div><div class="planning-buttons"><button class="btn btn-sm btn-success" data-restock-id="${safe(item.id)}" data-restock-grams="${grams}" type="button"><i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Add Full Roll</button><button class="btn btn-sm btn-outline-primary" data-planning-edit="${safe(item.id)}" type="button">Edit</button></div></div></div>`;
-  }).join("") : `<div class="col-12"><div class="empty-state text-center"><div class="fw-semibold">Planning is clear.</div><div class="text-secondary small mb-3">Low, out, no-roll, and frequent-use items will show here.</div><a class="btn btn-sm btn-outline-primary" href="home.html">Open Catalog</a></div></div>`;
+  }).join("") : `<div class="col-12"><div class="empty-state text-center"><div class="fw-semibold">Planning is clear.</div><div class="text-secondary small mb-3">Low, out, no-roll, and frequent-use items will show here.</div><a class="btn btn-sm btn-outline-primary" href="index.html">Open Catalog</a></div></div>`;
 }
 
 function exportReorderCSV() {
@@ -171,6 +171,11 @@ function summarizeExcelStockWorkbook(workbook, fileName) {
     });
   });
 
+  const materials = Array.from(materialMap.values()).sort((a, b) => a.row - b.row || a.column - b.column);
+  const layout = detectExcelStockLayout(rows, materials);
+  const totalRolls = layout.items.reduce((sum, item) => sum + Number(item.rolls || 0), 0);
+  const totalWeight = layout.items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
   return {
     fileName,
     sheetName,
@@ -179,7 +184,12 @@ function summarizeExcelStockWorkbook(workbook, fileName) {
     columnCount,
     nonEmptyRows,
     stockHeaderHits,
-    materials: Array.from(materialMap.values()).sort((a, b) => a.row - b.row || a.column - b.column),
+    materials,
+    layoutBlocks: layout.blocks,
+    candidateItems: layout.items,
+    layoutWarnings: layout.warnings,
+    totalRolls,
+    totalWeight,
   };
 }
 
@@ -188,7 +198,11 @@ function renderExcelParseStatus(summary) {
   if (!target) return;
   const materialNames = summary.materials.slice(0, 6).map(item => safe(item.name)).join(", ");
   const more = summary.materials.length > 6 ? `, +${summary.materials.length - 6} more` : "";
-  target.innerHTML = `<span class="excel-import-pill">${safe(summary.fileName)}</span> parsed <strong>${safe(summary.sheetName)}</strong>: ${summary.rowCount} rows, ${summary.columnCount} columns, ${summary.materials.length} material groups${materialNames ? ` (${materialNames}${more})` : ""}.`;
+  const warningCount = summary.layoutWarnings?.length || 0;
+  const itemCount = summary.candidateItems?.length || 0;
+  const totalRolls = Number(summary.totalRolls || 0);
+  const totalWeight = Number(summary.totalWeight || 0);
+  target.innerHTML = `<span class="excel-import-pill">${safe(summary.fileName)}</span> parsed <strong>${safe(summary.sheetName)}</strong>: ${summary.rowCount} rows, ${summary.columnCount} columns, ${summary.materials.length} material groups${materialNames ? ` (${materialNames}${more})` : ""}. <span class="excel-import-pill">${itemCount} candidates</span><span class="excel-import-pill">${totalRolls.toLocaleString()} rolls</span><span class="excel-import-pill">${totalWeight.toLocaleString()}g</span>${warningCount ? `<span class="excel-warning-pill">${warningCount} warnings</span>` : ""}`;
 }
 
 function parseExcelStockFile(file) {
@@ -216,8 +230,10 @@ function parseExcelStockFile(file) {
         rowCount: summary.rowCount,
         columnCount: summary.columnCount,
         materials: summary.materials.length,
+        candidates: summary.candidateItems.length,
+        warnings: summary.layoutWarnings.length,
       });
-      toast(`Parsed ${summary.fileName}: ${summary.rowCount} rows, ${summary.materials.length} material groups.`);
+      toast(`Detected ${summary.candidateItems.length} stock rows across ${summary.materials.length} material groups.`);
       console.info("Parsed Excel stock workbook", summary);
     } catch (err) {
       pendingExcelStockWorkbook = null;
@@ -237,3 +253,96 @@ document.addEventListener("click", event => {
 document.addEventListener("DOMContentLoaded", () => {
   $("#importExcelFile")?.addEventListener("change", event => parseExcelStockFile(event.target.files?.[0]));
 });
+function isStockHeaderText(text) {
+  return ["colour", "color", "colours", "colors", "spare", "weight"].includes(cellText(text).toLowerCase());
+}
+
+function isMaterialHeaderText(text) {
+  return EXCEL_MATERIAL_RE.test(cellText(text));
+}
+
+function numberOrZero(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function findHeaderColumn(rows, rowIndex, anchorColumn, label, fallbackOffset) {
+  const target = label.toLowerCase();
+  for (let r = Math.max(0, rowIndex - 3); r <= Math.min(rows.length - 1, rowIndex + 1); r += 1) {
+    const row = rows[r] || [];
+    for (let c = anchorColumn; c <= Math.min(row.length - 1, anchorColumn + 5); c += 1) {
+      if (cellText(row[c]).toLowerCase() === target) return c;
+    }
+  }
+  return anchorColumn + fallbackOffset;
+}
+
+function detectExcelStockLayout(rows, materials) {
+  const headers = materials.map(material => ({ ...material, rowIndex: material.row - 1, columnIndex: material.column - 1 }));
+  const blocks = headers.map((material, index) => {
+    const nextSameColumn = headers.find((candidate, candidateIndex) => candidateIndex > index && candidate.columnIndex === material.columnIndex);
+    return {
+      material: material.name,
+      startRow: material.rowIndex + 1,
+      endRow: nextSameColumn ? nextSameColumn.rowIndex : rows.length,
+      colorColumn: material.columnIndex,
+      spareColumn: findHeaderColumn(rows, material.rowIndex, material.columnIndex, "Spare", 2),
+      weightColumn: findHeaderColumn(rows, material.rowIndex, material.columnIndex, "Weight", 3),
+    };
+  });
+  const items = [];
+  const warnings = [];
+
+  blocks.forEach(block => {
+    let blankStreak = 0;
+    for (let r = block.startRow; r < block.endRow; r += 1) {
+      const row = rows[r] || [];
+      const color = cellText(row[block.colorColumn]);
+      const spareRaw = row[block.spareColumn];
+      const weightRaw = row[block.weightColumn];
+      const hasStockValue = cellText(spareRaw) || cellText(weightRaw);
+
+      if (!color && !hasStockValue) {
+        blankStreak += 1;
+        if (blankStreak >= 8) break;
+        continue;
+      }
+      blankStreak = 0;
+
+      if (!color || isStockHeaderText(color) || isMaterialHeaderText(color)) continue;
+
+      const rolls = numberOrZero(spareRaw);
+      const amount = numberOrZero(weightRaw);
+      const candidate = {
+        id: `bambu-${slug(block.material)}-${slug(color)}`,
+        color,
+        brand: "Bambu",
+        material: block.material,
+        rolls,
+        amount,
+        startingWeight: 1000,
+        spoolSizeKey: "1000g",
+        usage: [],
+        source: {
+          row: r + 1,
+          colorColumn: block.colorColumn + 1,
+          spareColumn: block.spareColumn + 1,
+          weightColumn: block.weightColumn + 1,
+        },
+      };
+      items.push(candidate);
+      if (!cellText(spareRaw)) warnings.push({ type: "missing-rolls", row: r + 1, color, material: block.material });
+      if (!cellText(weightRaw)) warnings.push({ type: "missing-weight", row: r + 1, color, material: block.material });
+      if (rolls <= 0 && amount > 0) warnings.push({ type: "zero-rolls-with-weight", row: r + 1, color, material: block.material, amount });
+    }
+  });
+
+  const seen = new Set();
+  items.forEach(item => {
+    const key = `${item.material.toLowerCase()}|${item.color.toLowerCase()}`;
+    if (seen.has(key)) warnings.push({ type: "duplicate", color: item.color, material: item.material });
+    seen.add(key);
+  });
+
+  return { blocks, items, warnings };
+}
