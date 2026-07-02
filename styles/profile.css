@@ -343,3 +343,139 @@
     gap: .1rem;
   }
 }
+.roll-warning {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.45rem;
+  padding: .15rem .45rem;
+  border: 1px solid var(--warning);
+  border-radius: 999px;
+  color: var(--warning);
+  background: var(--warning-soft);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.reorder-no-rolls {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.weight-actions .btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.planning-actions {
+  gap: .5rem;
+}
+
+.planning-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.planning-tile {
+  display: flex;
+  min-height: 3.75rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: .75rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.planning-tile span {
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.planning-tile strong {
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.planning-card {
+  display: grid;
+  gap: .75rem;
+  height: 100%;
+  padding: .85rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 .25rem .75rem rgba(15, 23, 42, .04);
+}
+
+.planning-card-main,
+.planning-card-footer,
+.planning-buttons {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+}
+
+.planning-card-main {
+  min-width: 0;
+}
+
+.planning-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+
+.planning-meta span,
+.planning-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.45rem;
+  padding: .15rem .45rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.planning-card-footer {
+  flex-wrap: wrap;
+}
+
+.planning-buttons {
+  align-self: end;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767.98px) {
+  .planning-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .planning-actions,
+  .planning-actions .form-select,
+  .planning-actions .btn,
+  .planning-buttons .btn {
+    width: 100%;
+  }
+}
+.excel-import-status {
+  min-height: 1.5rem;
+}
+
+.excel-import-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.45rem;
+  margin-right: .35rem;
+  padding: .15rem .45rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+}
