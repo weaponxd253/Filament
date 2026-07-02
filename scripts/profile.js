@@ -202,7 +202,7 @@ function renderExcelParseStatus(summary) {
   const itemCount = summary.candidateItems?.length || 0;
   const totalRolls = Number(summary.totalRolls || 0);
   const totalWeight = Number(summary.totalWeight || 0);
-  target.innerHTML = `<span class="excel-import-pill">${safe(summary.fileName)}</span> parsed <strong>${safe(summary.sheetName)}</strong>: ${summary.rowCount} rows, ${summary.columnCount} columns, ${summary.materials.length} material groups${materialNames ? ` (${materialNames}${more})` : ""}. <span class="excel-import-pill">${itemCount} candidates</span><span class="excel-import-pill">${totalRolls.toLocaleString()} rolls</span><span class="excel-import-pill">${totalWeight.toLocaleString()}g</span>${warningCount ? `<span class="excel-warning-pill">${warningCount} warnings</span>` : ""}`;
+  target.innerHTML = `<span class="excel-import-pill">${safe(summary.fileName)}</span> parsed <strong>${safe(summary.sheetName)}</strong>: ${summary.rowCount} rows, ${summary.columnCount} columns, ${summary.materials.length} material groups${materialNames ? ` (${materialNames}${more})` : ""}. <span class="excel-import-pill">${itemCount} candidates</span><span class="excel-import-pill">${totalRolls.toLocaleString()} rolls</span><span class="excel-import-pill">${totalWeight.toLocaleString()}g</span>${warningCount ? `<span class="excel-warning-pill">${warningCount} warnings</span>` : ""}<button id="excelPreviewOpen" class="btn btn-sm btn-outline-primary ms-1" type="button">Review Import</button>`;
 }
 
 function parseExcelStockFile(file) {
@@ -224,6 +224,7 @@ function parseExcelStockFile(file) {
       pendingExcelStockWorkbook = summary;
       window.pendingExcelStockWorkbook = summary;
       renderExcelParseStatus(summary);
+      showExcelImportPreview(summary);
       addActivity("owned:excel-parse", {
         fileName: summary.fileName,
         sheetName: summary.sheetName,
@@ -346,3 +347,137 @@ function detectExcelStockLayout(rows, materials) {
 
   return { blocks, items, warnings };
 }
+function excelCandidateToOwnedItem(candidate = {}) {
+  const amount = Math.max(0, Number(candidate.amount || 0));
+  const rolls = Math.max(0, Math.round(Number(candidate.rolls || 0)));
+  const startingWeight = Math.max(1000, amount, Number(candidate.startingWeight || 1000) || 1000);
+  return normItem({
+    id: candidate.id || `bambu-${slug(candidate.material || "material")}-${slug(candidate.color || "color")}`,
+    color: candidate.color || "Unnamed",
+    hex: candidate.hex || "#eeeeee",
+    brand: candidate.brand || "Bambu",
+    material: candidate.material || "",
+    rolls,
+    amount,
+    startingWeight,
+    spoolSizeKey: candidate.spoolSizeKey || "1000g",
+    usage: [],
+  });
+}
+
+function excelImportItems(summary = pendingExcelStockWorkbook) {
+  return (summary?.candidateItems || [])
+    .filter(candidate => cellText(candidate.color) && cellText(candidate.material))
+    .map(excelCandidateToOwnedItem);
+}
+
+function excelPreviewStatus(item, existingById) {
+  if (existingById.has(item.id)) return { label: "Updates existing", tone: "update" };
+  if (Number(item.rolls || 0) <= 0 && Number(item.amount || 0) > 0) return { label: "0 rolls with weight", tone: "warning" };
+  if (Number(item.rolls || 0) <= 0) return { label: "No rolls", tone: "warning" };
+  if (Number(item.amount || 0) <= 0) return { label: "No weight", tone: "warning" };
+  return { label: "New", tone: "new" };
+}
+
+function warningText(warning) {
+  const location = warning.row ? `Row ${warning.row}: ` : "";
+  const item = [warning.material, warning.color].filter(Boolean).join(" / ");
+  if (warning.type === "missing-rolls") return `${location}${item} has a blank roll count. It will import as 0 rolls.`;
+  if (warning.type === "missing-weight") return `${location}${item} has a blank weight. It will import as 0g.`;
+  if (warning.type === "zero-rolls-with-weight") return `${location}${item} has 0 rolls but ${Number(warning.amount || 0).toLocaleString()}g recorded.`;
+  if (warning.type === "duplicate") return `${item} appears more than once. Later rows may update the same inventory identity.`;
+  return `${location}${item || "Workbook"} needs review.`;
+}
+
+function renderExcelImportPreview(summary) {
+  const items = excelImportItems(summary);
+  summary.importItems = items;
+  const existing = getOwned();
+  const existingById = new Map(existing.map(item => [item.id, item]));
+  const matched = items.filter(item => existingById.has(item.id)).length;
+  const totalRolls = items.reduce((sum, item) => sum + Number(item.rolls || 0), 0);
+  const totalWeight = items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const summaryTarget = $("#excelPreviewSummary");
+  const warningsTarget = $("#excelPreviewWarnings");
+  const body = $("#excelPreviewTableBody");
+
+  if (summaryTarget) {
+    summaryTarget.innerHTML = `
+      <div class="excel-preview-tile"><span>Rows</span><strong>${items.length}</strong></div>
+      <div class="excel-preview-tile"><span>Rolls</span><strong>${totalRolls.toLocaleString()}</strong></div>
+      <div class="excel-preview-tile"><span>Weight</span><strong>${totalWeight.toLocaleString()}g</strong></div>
+      <div class="excel-preview-tile"><span>Matches</span><strong>${matched}</strong></div>
+      <div class="excel-preview-tile"><span>Warnings</span><strong>${Number(summary.layoutWarnings?.length || 0)}</strong></div>`;
+  }
+
+  if (warningsTarget) {
+    const warnings = summary.layoutWarnings || [];
+    warningsTarget.innerHTML = warnings.length
+      ? `<div class="excel-warning-list">${warnings.slice(0, 8).map(warning => `<div class="excel-warning-item"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>${safe(warningText(warning))}</span></div>`).join("")}${warnings.length > 8 ? `<div class="excel-warning-item">+${warnings.length - 8} more warnings in this workbook.</div>` : ""}</div>`
+      : `<div class="excel-preview-note"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>No import warnings detected.</span></div>`;
+  }
+
+  if (body) {
+    body.innerHTML = items.length ? items.slice(0, 80).map(item => {
+      const source = (summary.candidateItems || []).find(candidate => candidate.id === item.id)?.source;
+      const status = excelPreviewStatus(item, existingById);
+      return `<tr>
+        <td><div class="swatch-sm" style="background:${safe(item.hex)}" aria-hidden="true"></div></td>
+        <td class="fw-medium">${safe(item.color)}</td>
+        <td>${safe(item.material || "-")}</td>
+        <td>${Number(item.rolls || 0).toLocaleString()}</td>
+        <td>${Number(item.amount || 0).toLocaleString()}g</td>
+        <td>${source ? `Row ${Number(source.row || 0).toLocaleString()}` : "-"}</td>
+        <td><span class="excel-preview-badge excel-preview-${status.tone}">${safe(status.label)}</span></td>
+      </tr>`;
+    }).join("") : `<tr><td colspan="7"><div class="empty-state text-center"><div class="fw-semibold">No importable stock rows found.</div><div class="text-secondary small">Check that the workbook has material sections with color, spare, and weight columns.</div></div></td></tr>`;
+  }
+}
+
+function showExcelImportPreview(summary) {
+  if (!summary) return;
+  renderExcelImportPreview(summary);
+  const modal = $("#excelPreviewModal");
+  if (modal && window.bootstrap) bootstrap.Modal.getOrCreateInstance(modal).show();
+}
+
+function mergeExcelImportItems(existing, imported) {
+  const byId = new Map(existing.map(item => [item.id, normItem(item)]));
+  imported.forEach(item => {
+    const previous = byId.get(item.id);
+    byId.set(item.id, normItem({
+      ...(previous || {}),
+      ...item,
+      usage: previous?.usage || [],
+    }));
+  });
+  return Array.from(byId.values());
+}
+
+function importExcelPreview(mode = "merge") {
+  const summary = pendingExcelStockWorkbook;
+  if (!summary) { toast("Parse an Excel workbook before importing."); return; }
+  const imported = summary.importItems?.length ? summary.importItems : excelImportItems(summary);
+  if (!imported.length) { toast("No Excel stock rows are ready to import."); return; }
+
+  if (mode === "replace") {
+    const ok = confirm(`Replace all ${getOwned().length} current inventory items with ${imported.length} Excel items?`);
+    if (!ok) return;
+    setOwned(imported);
+  } else {
+    setOwned(mergeExcelImportItems(getOwned(), imported));
+  }
+
+  addActivity("owned:import", { count: imported.length, merge: mode !== "replace", source: "Excel" });
+  expandedRows.clear();
+  rerenderOwned();
+  renderFavorites($("#favSearch")?.value || "", $("#favSort")?.value || "name");
+  bootstrap.Modal.getOrCreateInstance($("#excelPreviewModal"))?.hide();
+  toast(`${imported.length} Excel item${imported.length === 1 ? "" : "s"} ${mode === "replace" ? "replaced" : "merged into"} inventory.`);
+}
+
+document.addEventListener("click", event => {
+  if (event.target.closest("#excelPreviewOpen")) showExcelImportPreview(pendingExcelStockWorkbook);
+  if (event.target.closest("#excelImportMerge")) importExcelPreview("merge");
+  if (event.target.closest("#excelImportReplace")) importExcelPreview("replace");
+});

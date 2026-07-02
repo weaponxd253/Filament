@@ -479,3 +479,104 @@
   color: var(--text);
   font-weight: 700;
 }
+.excel-preview-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.excel-preview-tile {
+  display: flex;
+  min-height: 4rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: .75rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.excel-preview-tile span {
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.excel-preview-tile strong {
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.excel-preview-warnings {
+  min-height: 2rem;
+}
+
+.excel-warning-pill,
+.excel-preview-badge,
+.excel-preview-note,
+.excel-warning-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: 1.45rem;
+  padding: .15rem .45rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.excel-warning-pill,
+.excel-warning-item,
+.excel-preview-warning {
+  color: var(--warning);
+  border-color: color-mix(in srgb, var(--warning) 55%, var(--border-soft));
+  background: var(--warning-soft);
+}
+
+.excel-warning-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.excel-preview-note,
+.excel-preview-new {
+  color: var(--success);
+  background: var(--success-soft);
+}
+
+.excel-preview-update {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+}
+
+.excel-preview-table-wrap {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+}
+
+.excel-preview-table {
+  min-width: 760px;
+  margin-bottom: 0;
+}
+
+.excel-preview-table td,
+.excel-preview-table th {
+  white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+  .excel-preview-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .excel-preview-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

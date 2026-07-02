@@ -345,6 +345,50 @@
                 </div>
             </div>
         </div>
+
+            <div class="modal fade" id="excelPreviewModal" tabindex="-1" aria-labelledby="excelPreviewModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h1 class="modal-title fs-5" id="excelPreviewModalLabel">Preview Excel Import</h1>
+                                <div class="small text-secondary">Review detected stock before changing your inventory.</div>
+                            </div>
+                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close" type="button"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="excelPreviewSummary" class="excel-preview-summary mb-3" aria-label="Excel import summary"></div>
+                            <div id="excelPreviewWarnings" class="excel-preview-warnings mb-3"></div>
+                            <div class="table-responsive excel-preview-table-wrap">
+                                <table class="table table-sm align-middle excel-preview-table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Swatch</th>
+                                            <th>Color</th>
+                                            <th>Material</th>
+                                            <th>Rolls</th>
+                                            <th>Weight</th>
+                                            <th>Source</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="excelPreviewTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer flex-wrap">
+                            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+                            <button id="excelImportReplace" class="btn btn-outline-danger" type="button">
+                                <i class="fa-solid fa-arrows-rotate me-1" aria-hidden="true"></i>Replace Inventory
+                            </button>
+                            <button id="excelImportMerge" class="btn btn-success" type="button">
+                                <i class="fa-solid fa-code-merge me-1" aria-hidden="true"></i>Merge Import
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </main>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
