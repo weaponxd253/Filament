@@ -1,29 +1,27 @@
-const KEY_FAVS = "filament-favorites";
-const KEY_OWNED = "filament-owned";
-const KEY_ACT = "profile-activity";
-const PRESETS = { "1000g": 1000, "750g": 750, "500g": 500, "250g": 250 };
+const {
+  PRESETS,
+  getActivity,
+  getFavorites,
+  getOwned,
+  migrateOwned,
+  normItem,
+  normUse,
+  presetFor,
+  recordActivity,
+  safe,
+  setActivity,
+  setFavorites,
+  setOwned,
+  slug,
+  today,
+  uid,
+} = window.FilamentShared;
+
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-const uid = () => Math.random().toString(36).slice(2, 10);
-const today = () => new Date().toISOString().slice(0, 10);
-const safe = (v = "") => String(v).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
-const slug = (v = "") => String(v).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 const setText = (sel, text) => { const el = $(sel); if (el) el.textContent = text; };
 function toast(message) { const el = $("#liveToast"); if (!el) return; const body = el.querySelector(".toast-body"); if (body) body.textContent = message; if (window.bootstrap) bootstrap.Toast.getOrCreateInstance(el).show(); }
-function read(key) { try { return JSON.parse(localStorage.getItem(key) || "[]"); } catch { return []; } }
-function write(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
-const getFavorites = () => read(KEY_FAVS);
-const setFavorites = value => write(KEY_FAVS, value);
-const getActivity = () => read(KEY_ACT);
-const setActivity = value => write(KEY_ACT, value);
-function presetFor(weight) { const hit = Object.entries(PRESETS).find(([, grams]) => grams === Number(weight)); return hit ? hit[0] : "custom"; }
-function normUse(entry = {}) { const grams = Math.max(0, Number(entry.grams ?? Math.abs(entry.deltaGrams || 0)) || 0); const before = Number(entry.before ?? 0); return { id: String(entry.id || `use_${uid()}`), ts: Number(entry.ts || Date.parse(entry.date || "") || Date.now()), date: String(entry.date || today()), project: String(entry.project || "").trim(), notes: String(entry.notes || "").trim(), grams, before: Number.isFinite(before) ? before : 0, after: Number(entry.after ?? Math.max(0, before - grams)) || 0 }; }
-function normItem(item = {}) { const amount = Math.max(0, Number(item.amount ?? item.weight ?? 0) || 0); let start = Math.max(0, Number(item.startingWeight ?? item.spoolWeight ?? item.spoolSize ?? amount ?? 1000) || 0); if (start < amount) start = amount; if (!start) start = amount || 1000; const material = item.material || item.category || ""; return { id: String(item.id || `${slug(item.brand || "brand")}-${slug(material || "mat")}-${slug(item.color || uid())}-${uid()}`), color: String(item.color || "Unnamed"), hex: /^#[0-9a-fA-F]{6}$/.test(item.hex || "") ? item.hex : "#eeeeee", brand: String(item.brand || ""), material: String(material), rolls: Math.max(0, Math.round(Number(item.rolls ?? 1) || 0)), amount, startingWeight: start, spoolSizeKey: PRESETS[item.spoolSizeKey] ? item.spoolSizeKey : presetFor(start), usage: Array.isArray(item.usage) ? item.usage.map(normUse).filter(u => u.grams > 0) : [] }; }
-const getOwned = () => read(KEY_OWNED).map(normItem);
-const setOwned = value => write(KEY_OWNED, value.map(normItem));
-function migrateOwned() { const raw = read(KEY_OWNED); const next = raw.map(normItem); if (JSON.stringify(raw) !== JSON.stringify(next)) write(KEY_OWNED, next); }
-function addActivity(type, payload) { setActivity([{ id: `evt_${uid()}`, ts: Date.now(), type, payload }, ...getActivity()].slice(0, 200)); renderActivity(); }
-function ago(ts) { const s = Math.max(0, Math.floor((Date.now() - ts) / 1000)); if (s < 60) return `${s}s ago`; const m = Math.floor(s / 60); if (m < 60) return `${m}m ago`; const h = Math.floor(m / 60); if (h < 24) return `${h}h ago`; return `${Math.floor(h / 24)}d ago`; }
+function addActivity(type, payload) { recordActivity(type, payload); renderActivity(); }function ago(ts) { const s = Math.max(0, Math.floor((Date.now() - ts) / 1000)); if (s < 60) return `${s}s ago`; const m = Math.floor(s / 60); if (m < 60) return `${m}m ago`; const h = Math.floor(m / 60); if (h < 24) return `${h}h ago`; return `${Math.floor(h / 24)}d ago`; }
 function pct(item) { const start = Number(item.startingWeight || 0); return start ? Math.max(0, Math.min(100, Math.round(Number(item.amount || 0) / start * 100))) : null; }
 function totalUsed(item) { const logged = (item.usage || []).reduce((sum, u) => sum + Number(u.grams || 0), 0); return Math.max(logged, Math.max(0, Number(item.startingWeight || 0) - Number(item.amount || 0))); }
 function lastUsed(item) { return [...(item.usage || [])].sort((a, b) => Number(b.ts || 0) - Number(a.ts || 0))[0] || null; }

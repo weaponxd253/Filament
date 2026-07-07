@@ -1,23 +1,17 @@
 // ---- config ----
 const DATA_URL = "data/colors.json";
 
-// ---- utilities ----
-const slugify = (str) =>
-  String(str)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-const escapeHTML = (value = "") =>
-  String(value).replace(/[&<>"]/g, (char) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-  }[char]));
-
-const plural = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
-const normalize = (value = "") => String(value).trim().toLowerCase();
+const {
+  addOwned,
+  flattenCatalog,
+  getOwned,
+  isFavorite,
+  normalize,
+  plural,
+  recordActivity,
+  safe: escapeHTML,
+  toggleFavorite,
+} = window.FilamentShared;
 
 function showToast(message) {
   const toastEl = document.getElementById("liveToast");
@@ -27,43 +21,8 @@ function showToast(message) {
   if (window.bootstrap) bootstrap.Toast.getOrCreateInstance(toastEl).show();
 }
 
-// ---- OWNED (Inventory -> My Filaments) ----
-const KEY_OWNED = "filament-owned";
-
-const getOwned = () => {
-  try { return JSON.parse(localStorage.getItem(KEY_OWNED) || "[]"); }
-  catch { return []; }
-};
-const setOwned = (arr) => localStorage.setItem(KEY_OWNED, JSON.stringify(arr));
-
-function normalizeOwnedItem(item) {
-  const amount = Number(item.amount || 0);
-  return {
-    ...item,
-    amount,
-    spoolSizeKey: item.spoolSizeKey || "1000g",
-    startingWeight: Math.max(Number(item.startingWeight || 0), amount, 1000),
-    usage: Array.isArray(item.usage) ? item.usage : [],
-  };
-}
-
-function addOwned(item) {
-  const list = getOwned();
-  const nextItem = normalizeOwnedItem(item);
-  const idx = list.findIndex(x => x.id === nextItem.id);
-  if (idx >= 0) {
-    const nextAmount = Number(list[idx].amount || 0) + Number(nextItem.amount || 0);
-    list[idx] = normalizeOwnedItem({
-      ...list[idx],
-      rolls: Number(list[idx].rolls || 0) + Number(nextItem.rolls || 1),
-      amount: nextAmount,
-      startingWeight: Math.max(Number(list[idx].startingWeight || 0), nextAmount),
-    });
-  } else {
-    list.push(nextItem);
-  }
-  setOwned(list);
-  return list;
+function addActivity(type, payload) {
+  recordActivity(type, payload);
 }
 
 function ownedSummary(id) {
@@ -80,40 +39,6 @@ function statusText(summary) {
   if (!summary.owned) return "Not in inventory";
   return `${plural(summary.rolls, "roll")} owned`;
 }
-
-// ---- favorites (shared with inventory) ----
-const KEY_FAVS = "filament-favorites";
-
-const getFavorites = () => {
-  try { return JSON.parse(localStorage.getItem(KEY_FAVS) || "[]"); }
-  catch { return []; }
-};
-const setFavorites = (arr) => localStorage.setItem(KEY_FAVS, JSON.stringify(arr));
-const isFavorite = (id) => getFavorites().some(f => f.id === id);
-
-// ---- activity (shared with inventory) ----
-const KEY_ACT = "profile-activity";
-const actUid = () => Math.random().toString(36).slice(2, 10);
-function addActivity(type, payload) {
-  const max = 200;
-  let list = [];
-  try { list = JSON.parse(localStorage.getItem(KEY_ACT) || "[]"); } catch { }
-  list = [{ id: `evt_${actUid()}`, ts: Date.now(), type, payload }, ...list].slice(0, max);
-  localStorage.setItem(KEY_ACT, JSON.stringify(list));
-}
-
-function toggleFavorite(item) {
-  const favs = getFavorites();
-  const idx = favs.findIndex(f => f.id === item.id);
-  if (idx >= 0) {
-    favs.splice(idx, 1);
-  } else {
-    favs.push(item);
-  }
-  setFavorites(favs);
-  return isFavorite(item.id);
-}
-
 // ---- catalog state ----
 const state = {
   allItems: [],
@@ -132,23 +57,6 @@ const els = {
   sort: document.getElementById("catalogSort"),
   quickButtons: Array.from(document.querySelectorAll("[data-quick-filter]")),
 };
-
-function flattenCatalog(categories = {}) {
-  return Object.entries(categories).flatMap(([category, items]) =>
-    (items || []).map((it) => ({
-      id: slugify(`${category}-${it.color}`),
-      color: it.color || "Unnamed",
-      hex: it.hex || "#eeeeee",
-      brand: it.brand || "",
-      material: category,
-      rolls: Number(it.rolls ?? 1),
-      amount: Number(it.amount ?? 0),
-      spoolSizeKey: "1000g",
-      startingWeight: Math.max(Number(it.amount ?? 0), 1000),
-      usage: [],
-    }))
-  );
-}
 
 function populateMaterialFilter(items) {
   if (!els.material) return;
